@@ -2,14 +2,19 @@
 
 :root {
   --paper: #FFFFFF;
-  --mist: #F8F9FA;
+  --mist: #F0F6FB;
+  --mist-dark: #E1EEF7;
   --ink: #212529;
   --muted: #6C757D;
   --line: #DEE2E6;
   --accent: #0069AA;
   --accent-hover: #005082;
+  --accent-light: #E8F3FA;
   --brand: #0069AA;
+  --brand-hover: #005082;
   --brand-text: #FFFFFF;
+  --success: #198754;
+  --danger: #DC3545;
   --background: var(--paper);
   --foreground: var(--ink);
 }
@@ -18,28 +23,37 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-assistant);
-  --font-serif: var(--font-assistant); /* Using Assistant for both now as requested */
+  --font-serif: var(--font-assistant);
 }
 
 html,
 body {
   background: var(--paper);
   color: var(--ink);
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-assistant), sans-serif;
-  font-size: 16px; /* Secondary / Base font size */
+  font-size: 16px;
 }
 
-/* Custom scrollbar for a cleaner look */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar { width: 5px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--line); border-radius: 10px; }
+
+/* Smooth transitions */
+* { transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 150ms; transition-timing-function: ease; }
+
+/* Hero gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #A8D4EF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--line);
-  border-radius: 10px;
-}
+
+/* Card hover shimmer */
+.card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,105,170,0.12); }

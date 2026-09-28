@@ -1,49 +1,74 @@
-import { ContributeForm } from "@/components/ContributeForm";
+import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
-import { GoogleSignIn } from "@/components/GoogleSignIn";
-import { isSupabaseConfigured } from "@/lib/config";
-import { getCourses } from "@/lib/data";
-import { createServerSupabase } from "@/lib/supabase/server";
 
-export default async function ContributePage() {
-  const courses = await getCourses();
-  const supabase = await createServerSupabase();
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
-
+// The Contribute page now explains that only the admin can upload.
+// Students can still request files via email.
+export default function ContributePage() {
   return (
-    <div className="mx-auto max-w-xl px-4 py-14">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:py-24">
       <FadeIn>
-        <h1 className="text-[32px] font-bold text-[var(--ink)]">Contribute</h1>
-        <p className="mt-3 text-base text-[var(--muted)] leading-relaxed">
-          Share a syllabus, notes, past paper, or other useful PDF. Sign in with
-          Google, fill the form, and wait for approval. Nothing goes public
-          until it is reviewed.
+        <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-3">Contribute</p>
+        <h1 className="text-[32px] sm:text-4xl font-black text-[var(--ink)] leading-tight">
+          Want to Help Your Classmates?
+        </h1>
+        <p className="mt-4 text-base text-[var(--muted)] leading-relaxed max-w-2xl">
+          We are always looking for quality study materials. If you have notes, syllabi, or past papers, you can request them to be added to the archive.
         </p>
       </FadeIn>
 
-      <FadeIn delay={0.08} className="mt-8">
-        {!isSupabaseConfigured() ? (
-          <p className="rounded-2xl border border-[var(--line)] bg-[var(--mist)] p-6 text-base leading-relaxed text-[var(--muted)]">
-            Google sign-in will work after you add your Supabase keys to{" "}
-            <code className="font-bold text-[var(--ink)]">.env.local</code>. Until then you can still browse courses and
-            sample PDFs.
+      <FadeIn delay={0.08} className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* Option 1 — Email request */}
+        <div className="rounded-2xl border border-[var(--line)] bg-white p-7 shadow-sm flex flex-col">
+          <div className="w-12 h-12 rounded-xl bg-[var(--accent-light)] flex items-center justify-center text-2xl mb-5">
+            📧
+          </div>
+          <h2 className="text-xl font-bold text-[var(--ink)]">Send a Request</h2>
+          <p className="mt-2 text-sm text-[var(--muted)] leading-relaxed flex-1">
+            Email us the file with the course name and semester. The admin will review and upload it if it meets quality standards.
           </p>
-        ) : !user ? (
-          <div className="rounded-2xl border border-[var(--line)] bg-white p-8 text-center shadow-sm">
-            <p className="mb-6 text-base text-[var(--muted)]">
-              Use your college Google account. We only need it so we know who
-              sent the file.
-            </p>
-            <GoogleSignIn />
+          <a
+            href="mailto:admin@example.com?subject=File Contribution Request&body=Course:%0ASemester:%0AType (Notes/Syllabus/Past Question):%0ADescription:"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-bold text-white hover:bg-[var(--accent-hover)] transition-colors active:scale-95"
+          >
+            Send Email →
+          </a>
+        </div>
+
+        {/* Option 2 — What happens */}
+        <div className="rounded-2xl border border-[var(--line)] bg-[var(--mist)] p-7 flex flex-col">
+          <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-2xl mb-5 shadow-sm">
+            🛡️
           </div>
-        ) : (
-          <div className="space-y-4">
-            <p className="text-sm font-medium text-[var(--muted)]">Signed in as <span className="text-[var(--ink)]">{user.email}</span></p>
-            <ContributeForm courses={courses} userId={user.id} />
-          </div>
-        )}
+          <h2 className="text-xl font-bold text-[var(--ink)]">How It Works</h2>
+          <ul className="mt-3 space-y-3 flex-1">
+            {[
+              "You send your file via email",
+              "Admin reviews it for quality",
+              "If approved, it is uploaded to the correct course & semester",
+              "All students can then access it for free",
+            ].map((step, i) => (
+              <li key={i} className="flex items-start gap-2.5 text-sm text-[var(--muted)]">
+                <span className="shrink-0 w-5 h-5 rounded-full bg-[var(--accent)] text-white text-[10px] font-black flex items-center justify-center mt-0.5">
+                  {i + 1}
+                </span>
+                {step}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </FadeIn>
+
+      <FadeIn delay={0.15} className="mt-8 rounded-2xl border border-[var(--line)] bg-white p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-bold text-[var(--ink)]">Looking for study materials?</p>
+          <p className="text-sm text-[var(--muted)] mt-0.5">Browse all available courses and download what you need.</p>
+        </div>
+        <Link
+          href="/course"
+          className="shrink-0 rounded-full bg-[var(--ink)] px-6 py-3 text-sm font-bold text-white hover:bg-[var(--accent-hover)] transition-colors active:scale-95"
+        >
+          Browse Courses →
+        </Link>
       </FadeIn>
     </div>
   );
