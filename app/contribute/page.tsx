@@ -26,9 +26,12 @@ export default function ContributePage() {
           <p className="mt-2 text-sm text-[var(--muted)] leading-relaxed flex-1">
             Email us the file with the course name and semester. The admin will review and upload it if it meets quality standards.
           </p>
-          <a href="mailto:bikashsharmalamsal@gmail.com?subject=Hello%20Bikash&body=Hello%20Bikash,%0A%0AI%20would%20like%20to%20contact%20you.">
-  Email Me
-</a>
+          <a
+            href="mailto:bikashsharmalamsal@gmail.com?subject=File Contribution Request&body=Course:%0ASemester:%0AType (Notes/Syllabus/Past Question):%0ADescription:"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-bold text-white hover:bg-[var(--accent-hover)] transition-colors active:scale-95"
+          >
+            Send Email → 
+          </a>
         </div>
 
         {/* Option 2 — What happens */}
